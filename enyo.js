@@ -36,10 +36,18 @@ exports.template = function(grunt, init, done) {
     grunt.helper('prompt_for', 'licenses', 'MIT GPL'),
     grunt.helper('prompt_for', 'author_name'),
     grunt.helper('prompt_for', 'author_email'),
-    grunt.helper('prompt_for', 'author_url')
+    grunt.helper('prompt_for', 'author_url'),
+    {
+      name: 'enyo_libraries',
+      message: 'Enyo libraries',
+      default: 'layout onyx',
+      warning: 'Space separated list of enyo libraries dependencies'
+    }
   ], function(err, props) {
-    // A few additional properties.
-    props.keywords = [];
+    // Make an array out of the enyo_libraries string
+    var words = grunt.utils._.words;
+    var clean = grunt.utils._.clean;
+    props.enyo_libraries = words(clean(props.enyo_libraries));
 
     // Files to copy (and process).
     var files = init.filesToCopy(props);
